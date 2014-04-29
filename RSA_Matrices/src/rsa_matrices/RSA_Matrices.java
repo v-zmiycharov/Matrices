@@ -5,6 +5,8 @@
  */
 package rsa_matrices;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author valentin.zmiycharov
@@ -16,9 +18,9 @@ public class RSA_Matrices {
     public static void main(String args[]) {
         int row;
         int col;
-        int A[][] = {{1, 4}, {2, 5}, {3, 6}};
-        int B[][] = {{8, 7, 6}, {5, 4, 3}};
-        int C[][] = new int[3][3];
+        double A[][] = {{1.3, 4.5}, {2.1, 5.9}, {3.0, 6.1}};
+        double B[][] = {{8.4, 7.2, 6.0}, {5.1, 4.8, 3.5}};
+        double C[][] = new double[3][3];
         int threadcount = 0;
         Thread[] thrd = new Thread[NUM_OF_THREADS];
 
@@ -38,11 +40,16 @@ public class RSA_Matrices {
         } catch (InterruptedException ie) {
         }
 
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+        
         // printing matrix A
         System.out.println(" A Matrix : ");
         for (row = 0; row < 3; row++) {
             for (col = 0; col < 2; col++) {
-                System.out.print("  " + A[row][col]);
+                System.out.print("  " + df.format(A[row][col]));
             }
             System.out.println();
         }
@@ -51,7 +58,7 @@ public class RSA_Matrices {
         System.out.println(" B Matrix : ");
         for (row = 0; row < 2; row++) {
             for (col = 0; col < 3; col++) {
-                System.out.print("  " + B[row][col]);
+                System.out.print("  " + df.format(B[row][col]));
             }
             System.out.println();
         }
@@ -60,7 +67,7 @@ public class RSA_Matrices {
         System.out.println(" Resulting C Matrix : ");
         for (row = 0; row < 3; row++) {
             for (col = 0; col < 3; col++) {
-                System.out.print("  " + C[row][col]);
+                System.out.print("  " + df.format(C[row][col]));
             }
             System.out.println();
         }

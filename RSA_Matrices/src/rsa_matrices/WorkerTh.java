@@ -13,11 +13,11 @@ public class WorkerTh implements Runnable {
 
     private int row;
     private int col;
-    private int A[][];
-    private int B[][];
-    private int C[][];
+    private double A[][];
+    private double B[][];
+    private double C[][];
 
-    public WorkerTh(int row, int col, int A[][], int B[][], int C[][]) {
+    public WorkerTh(int row, int col, double A[][], double B[][], double C[][]) {
         this.row = row;
         this.col = col;
         this.A = A;
