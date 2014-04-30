@@ -13,20 +13,23 @@ import java.text.DecimalFormat;
  */
 public class RSA_Matrices {
 
+    public static final int m = 3;
+    public static final int n = 2;
+    public static final int k = 3;
     public static final int NUM_OF_THREADS = 9;
 
     public static void main(String args[]) {
         int row;
         int col;
-        double A[][] = {{1.3, 4.5}, {2.1, 5.9}, {3.0, 6.1}};
-        double B[][] = {{8.4, 7.2, 6.0}, {5.1, 4.8, 3.5}};
-        double C[][] = new double[3][3];
+        double A[][] = Helpers.GenerateMatrix(n, m);
+        double B[][] = Helpers.GenerateMatrix(k, n);
+        double C[][] = new double[m][k];
         int threadcount = 0;
         Thread[] thrd = new Thread[NUM_OF_THREADS];
 
         try {
-            for (row = 0; row < 3; row++) {
-                for (col = 0; col < 3; col++) {
+            for (row = 0; row < C.length; row++) {
+                for (col = 0; col < C[0].length; col++) {
                     // creating thread for multiplications
                     thrd[threadcount] = new Thread(new WorkerTh(row, col, A, B, C));
                     thrd[threadcount].start(); //thread start
