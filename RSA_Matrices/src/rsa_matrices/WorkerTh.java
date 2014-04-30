@@ -32,10 +32,12 @@ public class WorkerTh implements Runnable {
     @Override
     public void run() {
         for (int row = startRow; row <= endRow; row++) {
-            for (int col = startCol; col <= endCol && col <= C[row].length; col++) {
+            int col = row == startRow ? startCol : 0;
+            for (; col < C[row].length && (row != endRow || col <= endCol) ; col++) {
                 for (int k = 0; k < B.length; k++) {
                     C[row][col] += A[row][k] * B[k][col];
-                }            }
+                }
+            }
         }
     }
 }

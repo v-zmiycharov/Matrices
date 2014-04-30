@@ -1,5 +1,5 @@
-- Different number of threads functionality
 - Read parameters from input
 - Validate input
 - Show messages
 - Support quiet mode
+- Rename
