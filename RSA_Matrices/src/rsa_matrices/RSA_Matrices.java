@@ -31,7 +31,7 @@ public class RSA_Matrices {
             for (row = 0; row < C.length; row++) {
                 for (col = 0; col < C[0].length; col++) {
                     // creating thread for multiplications
-                    thrd[threadcount] = new Thread(new WorkerTh(row, col, A, B, C));
+                    thrd[threadcount] = new Thread(new WorkerTh(row, row, col, col, A, B, C));
                     thrd[threadcount].start(); //thread start
 
                     thrd[threadcount].join(); // joining threads
