@@ -20,7 +20,7 @@ public final class Helpers {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
                 Random random = new Random();
-                result[row][col] = 5 * random.nextDouble();
+                result[row][col] = 2 * random.nextDouble();
             }
         }
         return result;

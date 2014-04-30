@@ -3,3 +3,4 @@
 - Show messages
 - Support quiet mode
 - Rename
+- Refactor

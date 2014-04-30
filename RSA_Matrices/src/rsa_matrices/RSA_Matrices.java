@@ -5,7 +5,9 @@
  */
 package rsa_matrices;
 
-import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -14,59 +16,68 @@ import java.text.DecimalFormat;
 public class RSA_Matrices {
 
     //Input simulation
-    public static final int m = 8;
-    public static final int n = 3;
-    public static final int k = 5;
-    public static final int NUM_OF_THREADS = 19;
-
-    public static final int MAX_THREADS_COUNT = 5000;
+    public static final int m = 927;
+    public static final int n = 836;
+    public static final int k = 1212;
+    public static final int NUM_OF_THREADS = 100;
+    
+    public static double A[][];
+    public static double B[][];
+    public static double C[][];
 
     public static void main(String args[]) {
-        int[] threadsAndActions = Helpers.CalculateOptimalThreadsCount(NUM_OF_THREADS, m * k, MAX_THREADS_COUNT);
+        int cores = Runtime.getRuntime().availableProcessors();
+        
+        int[] threadsAndActions = Helpers.CalculateOptimalThreadsCount(NUM_OF_THREADS, m * k, cores);
         int numberOfThreads = threadsAndActions[0];
         int maxActionsPerThread = threadsAndActions[1];
 
-        double A[][] = Helpers.GenerateMatrix(n, m);
-        double B[][] = Helpers.GenerateMatrix(k, n);
-        double C[][] = new double[m][k];
+        A = Helpers.GenerateMatrix(n, m);
+        B = Helpers.GenerateMatrix(k, n);
+        C = new double[m][k];
         Thread[] thrd = new Thread[numberOfThreads];
 
-        try {
-            int currentPosition = 0;
-            int startRow = 0;
-            int endRow = 0;
-            int startCol = 0;
-            int endCol = 0;
-            for (int i = 0; i < numberOfThreads - 1; i++) {
-                currentPosition = i * maxActionsPerThread;
-                startRow = currentPosition / k;
-                endRow = (currentPosition + maxActionsPerThread - 1) / k;
-                startCol = currentPosition % k;
-                endCol = (currentPosition + maxActionsPerThread - 1) % k;
-
-                //System.out.printf("thread %d - [%d][%d] to [%d][%d] \n", i+1, startRow, startCol, endRow, endCol);
-                thrd[i] = new Thread(new WorkerTh(startRow, endRow, startCol, endCol, A, B, C));
-                thrd[i].start();
-                thrd[i].join();
-            }
-            int i = numberOfThreads - 1;
+        long startTime = System.nanoTime();
+        
+        int currentPosition;
+        int startRow;
+        int endRow;
+        int startCol;
+        int endCol;
+        for (int i = 0; i < numberOfThreads - 1; i++) {
             currentPosition = i * maxActionsPerThread;
             startRow = currentPosition / k;
+            endRow = (currentPosition + maxActionsPerThread - 1) / k;
             startCol = currentPosition % k;
-            //System.out.printf("thread %d - [%d][%d] to [%d][%d] \n", i+1, startRow, startCol, m - 1, k - 1);
-            thrd[i] = new Thread(new WorkerTh(startRow, m - 1, startCol, k - 1, A, B, C));
-            thrd[i].start();
-            thrd[i].join();
+            endCol = (currentPosition + maxActionsPerThread - 1) % k;
 
-        } catch (InterruptedException ie) {
+            thrd[i] = new Thread(new WorkerTh(startRow, endRow, startCol, endCol));
         }
+        int index = numberOfThreads - 1;
+        currentPosition = index * maxActionsPerThread;
+        startRow = currentPosition / k;
+        startCol = currentPosition % k;
+        thrd[index] = new Thread(new WorkerTh(startRow, m - 1, startCol, k - 1));
+        
+        for (Thread thrd1 : thrd) {
+            thrd1.start();
+        }
+          
+        for (Thread thrd1 : thrd) {
+            try {
+                thrd1.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RSA_Matrices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                 
+        long stopTime = System.nanoTime();
+        double elapsed = (double)(stopTime - startTime) / 1000000000.0;
 
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setMinimumFractionDigits(2);
-
-        Helpers.PrintMatrix(A, "A Matrix:");
-        Helpers.PrintMatrix(B, "B Matrix:");
-        Helpers.PrintMatrix(C, "C = AxB Matrix:");
+        //Helpers.PrintMatrix(A, "A Matrix:");
+        //Helpers.PrintMatrix(B, "B Matrix:");
+        //Helpers.PrintMatrix(C, "C = AxB Matrix:");
+        
+        System.out.printf("%d thread(s), %d used - %f seconds \n", NUM_OF_THREADS, numberOfThreads, elapsed);
     }
 }
