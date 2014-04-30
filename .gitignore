@@ -1,11 +1,11 @@
 # NetBeans specific #
-*nbproject/private/
-*build/
-*nbbuild/
-*dist/
-*nbdist/
-*nbactions.xml
-*nb-configuration.xml
+RSA_Matrices/nbproject/private/
+RSA_Matrices/build/
+RSA_Matrices/nbbuild/
+RSA_Matrices/dist/
+RSA_Matrices/nbdist/
+RSA_Matrices/nbactions.xml
+RSA_Matrices/nb-configuration.xml
 
 # Class Files #
 *.class
