@@ -13,10 +13,10 @@ import java.text.DecimalFormat;
  */
 public class RSA_Matrices {
 
-    public static final int m = 3;
+    public static final int m = 8;
     public static final int n = 2;
     public static final int k = 3;
-    public static final int NUM_OF_THREADS = 9;
+    public static final int NUM_OF_THREADS = m*k;
 
     public static void main(String args[]) {
         int row;
@@ -48,33 +48,8 @@ public class RSA_Matrices {
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);
         
-        // printing matrix A
-        System.out.println(" A Matrix : ");
-        for (row = 0; row < 3; row++) {
-            for (col = 0; col < 2; col++) {
-                System.out.print("  " + df.format(A[row][col]));
-            }
-            System.out.println();
-        }
-
-        // printing matrix B
-        System.out.println(" B Matrix : ");
-        for (row = 0; row < 2; row++) {
-            for (col = 0; col < 3; col++) {
-                System.out.print("  " + df.format(B[row][col]));
-            }
-            System.out.println();
-        }
-
-        // printing resulting matrix C after multiplication
-        System.out.println(" Resulting C Matrix : ");
-        for (row = 0; row < 3; row++) {
-            for (col = 0; col < 3; col++) {
-                System.out.print("  " + df.format(C[row][col]));
-            }
-            System.out.println();
-        }
-
+        Helpers.PrintMatrix(A, "A Matrix:");
+        Helpers.PrintMatrix(B, "B Matrix:");
+        Helpers.PrintMatrix(C, "C = AxB Matrix:");
     }
-
 }

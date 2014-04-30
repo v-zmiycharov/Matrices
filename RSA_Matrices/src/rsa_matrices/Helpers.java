@@ -5,6 +5,7 @@
  */
 package rsa_matrices;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -19,10 +20,31 @@ public final class Helpers {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
                 Random random = new Random();
-                result[row][col] = 5*random.nextDouble();
+                result[row][col] = 5 * random.nextDouble();
             }
         }
         return result;
+    }
+
+    public static void PrintMatrix(double[][] matrix, String matrixName) {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+
+        System.out.println(matrixName);
+        for (int row = 0; row < matrix.length && row < 5; row++) {
+            for (int col = 0; col < matrix[0].length && col < 5; col++) {
+                System.out.print("  " + df.format(matrix[row][col]));
+            }
+            if(matrix[0].length>5) {
+                System.out.print(" ... ");
+            }
+            System.out.println();
+        }
+        if(matrix.length>5) {
+            System.out.print("  ... ... ... ");
+        }
+        System.out.println();
     }
 
 }
