@@ -7,6 +7,7 @@ package rsa_matrices;
 
 import java.text.DecimalFormat;
 import java.util.Random;
+import org.apache.commons.cli.Options;
 
 /**
  *
@@ -68,6 +69,16 @@ public final class Helpers {
             result[1] = maxActionsPerThread;
             return result;
         }
+    }
+    
+    public static Options CreateOptions() {
+        Options options = new Options();
+        options.addOption("m", true, "Columns of first table");
+        options.addOption("n", true, "Rows of first table");
+        options.addOption("k", true, "Columns of second table");
+        options.addOption("t", true, "Maximum possible tasks");
+        options.addOption("q", false, "Maximum possible tasks");
+        return options;
     }
 
 }

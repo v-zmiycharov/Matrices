@@ -1,5 +1,3 @@
-- Read parameters from input
-- Validate input
 - Show messages
 - Support quiet mode
 - Rename
