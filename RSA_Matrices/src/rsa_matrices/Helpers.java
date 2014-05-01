@@ -7,7 +7,16 @@ package rsa_matrices;
 
 import java.text.DecimalFormat;
 import java.util.Random;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import static rsa_matrices.RSA_Matrices.isQuietMode;
+import static rsa_matrices.RSA_Matrices.k;
+import static rsa_matrices.RSA_Matrices.m;
+import static rsa_matrices.RSA_Matrices.n;
+import static rsa_matrices.RSA_Matrices.threadsCount;
 
 /**
  *
@@ -15,7 +24,7 @@ import org.apache.commons.cli.Options;
  */
 public final class Helpers {
 
-    public static double[][] GenerateMatrix(int columns, int rows) {
+    public static double[][] GenerateMatrix(int rows, int columns) {
         double result[][];
         result = new double[rows][columns];
         for (int row = 0; row < rows; row++) {
@@ -81,4 +90,41 @@ public final class Helpers {
         return options;
     }
 
+    
+    public static boolean assignInputValues(Options options, String[] args) {
+        CommandLineParser parser = new BasicParser();
+        CommandLine cmd;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException ex) {
+            return false;
+        }
+
+        //Validate input
+        if (!cmd.hasOption("m") || !cmd.hasOption("n")
+                || !cmd.hasOption("k") || !cmd.hasOption("t")) {
+            return false;
+        }
+
+        try {
+            m = Integer.parseInt(cmd.getOptionValue("m"));
+            n = Integer.parseInt(cmd.getOptionValue("n"));
+            k = Integer.parseInt(cmd.getOptionValue("k"));
+            threadsCount = Integer.parseInt(cmd.getOptionValue("t"));
+            isQuietMode = cmd.hasOption("q");
+
+            if (m <= 0 || n <= 0 || k <= 0 || threadsCount <= 0) {
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public static void showMessageIfNotQuiet(String message) {
+        if (!isQuietMode) {
+            System.out.println(message);
+        }
+    }
 }

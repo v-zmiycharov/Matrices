@@ -13,14 +13,14 @@ import static rsa_matrices.RSA_Matrices.C;
  *
  * @author valentin.zmiycharov
  */
-public class WorkerTh implements Runnable {
+public class CalculationThread implements Runnable {
 
-    private int startRow;
-    private int endRow;
-    private int startCol;
-    private int endCol;
+    private final int startRow;
+    private final int endRow;
+    private final int startCol;
+    private final int endCol;
 
-    public WorkerTh(int startRow, int endRow, int startCol, int endCol) {
+    public CalculationThread(int startRow, int endRow, int startCol, int endCol) {
         this.startRow = startRow;
         this.endRow = endRow;
         this.startCol = startCol;
@@ -29,8 +29,6 @@ public class WorkerTh implements Runnable {
 
     @Override
     public void run() {
-        long startTime = System.nanoTime();
-        
         for (int row = startRow; row <= endRow; row++) {
             int col = row == startRow ? startCol : 0;
             for (; col < C[row].length && (row != endRow || col <= endCol) ; col++) {
@@ -39,8 +37,5 @@ public class WorkerTh implements Runnable {
                 }
             }
         }
-        
-        long stopTime = System.nanoTime();
-        double elapsed = (double)(stopTime - startTime) / 1000000000.0;
     }
 }
