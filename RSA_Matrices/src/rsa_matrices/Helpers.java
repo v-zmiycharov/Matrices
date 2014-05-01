@@ -28,7 +28,7 @@ public final class Helpers {
     }
 
     public static void PrintMatrix(double[][] matrix, String matrixName) {
-        int MAXIMUM_ALLOWED_COUNT = 25;
+        int MAXIMUM_ALLOWED_COUNT = 10;
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);

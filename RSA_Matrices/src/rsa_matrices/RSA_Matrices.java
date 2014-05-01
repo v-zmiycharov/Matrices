@@ -23,7 +23,7 @@ public class RSA_Matrices {
     public static int m;
     public static int n;
     public static int k;
-    public static int tasksCount;
+    public static int threadsCount;
     public static boolean isQuietMode;
 
     public static double A[][];
@@ -33,21 +33,30 @@ public class RSA_Matrices {
     public static void main(String args[]) {
         Options options = Helpers.CreateOptions();
         if(!assignInputValues(options, args)) {
-            System.out.println("Incorect input");
+            System.out.println("Incorect input!");
             return;
         }
+        System.out.println("Input validated!");
 
         int cores = Runtime.getRuntime().availableProcessors();
+        System.out.println(cores + " cores found.");
 
-        int[] threadsAndActions = Helpers.CalculateOptimalThreadsCount(tasksCount, m * k, cores);
+        int[] threadsAndActions = Helpers.CalculateOptimalThreadsCount(threadsCount, m * k, cores);
         int numberOfThreads = threadsAndActions[0];
         int maxActionsPerThread = threadsAndActions[1];
+        System.out.println("Calculated optimal threads count based on input and cores - " + numberOfThreads);
 
         A = Helpers.GenerateMatrix(n, m);
         B = Helpers.GenerateMatrix(k, n);
         C = new double[m][k];
+        
+        System.out.println("Matrices generated");
+        Helpers.PrintMatrix(A, "A Matrix: [" + n + "][" + m + "]" );
+        Helpers.PrintMatrix(B, "B Matrix: [" + k + "][" + n + "]");
+        
         Thread[] thrd = new Thread[numberOfThreads];
 
+        System.out.println("Starting calculations");
         long startTime = System.nanoTime();
 
         int currentPosition;
@@ -85,10 +94,8 @@ public class RSA_Matrices {
         long stopTime = System.nanoTime();
         double elapsed = (double) (stopTime - startTime) / 1000000000.0;
 
-        Helpers.PrintMatrix(A, "A Matrix:");
-        Helpers.PrintMatrix(B, "B Matrix:");
         Helpers.PrintMatrix(C, "C = AxB Matrix:");
-        System.out.printf("%d thread(s), %d used - %f seconds \n", tasksCount, numberOfThreads, elapsed);
+        System.out.printf("%d thread(s) used - %f seconds \n", numberOfThreads, elapsed);
     }
 
     public static boolean assignInputValues(Options options, String[] args) {
@@ -110,10 +117,10 @@ public class RSA_Matrices {
             m = Integer.parseInt(cmd.getOptionValue("m"));
             n = Integer.parseInt(cmd.getOptionValue("n"));
             k = Integer.parseInt(cmd.getOptionValue("k"));
-            tasksCount = Integer.parseInt(cmd.getOptionValue("t"));
+            threadsCount = Integer.parseInt(cmd.getOptionValue("t"));
             isQuietMode = cmd.hasOption("q");
 
-            if (m <= 0 || n <= 0 || k <= 0 || tasksCount <= 0) {
+            if (m <= 0 || n <= 0 || k <= 0 || threadsCount <= 0) {
                 return false;
             }
             return true;
