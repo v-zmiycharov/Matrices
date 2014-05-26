@@ -1,1 +1,3 @@
 - Documentation
+- Check dimensions definition in documentation and code
+- Availability on another computer

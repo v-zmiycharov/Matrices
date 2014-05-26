@@ -27,7 +27,7 @@ public class RSA_Matrices {
     public static double C[][];
 
     public static void main(String args[]) {
-        Options options = Helpers.CreateOptions();
+        Options options = Helpers.createOptions();
         if (!Helpers.assignInputValues(options, args)) {
             System.out.println("Incorect input!");
             return;
@@ -37,19 +37,19 @@ public class RSA_Matrices {
         int cores = Runtime.getRuntime().availableProcessors();
         Helpers.showMessageIfNotQuiet(cores + " cores found.");
 
-        int[] threadsAndActions = Helpers.CalculateOptimalThreadsCount(threadsCount, m * k, cores);
+        int[] threadsAndActions = Helpers.calculateOptimalThreadsCount(threadsCount, m * k, cores);
         int numberOfThreads = threadsAndActions[0];
         int maxActionsPerThread = threadsAndActions[1];
         Helpers.showMessageIfNotQuiet("Calculated optimal threads count based on input and cores - " + numberOfThreads);
 
-        A = Helpers.GenerateMatrix(n, m);
-        B = Helpers.GenerateMatrix(k, n);
+        A = Helpers.generateMatrix(m, n);
+        B = Helpers.generateMatrix(n, k);
         C = new double[m][k];
 
         Helpers.showMessageIfNotQuiet("Matrices generated:");
         if (!isQuietMode) {
-            Helpers.PrintMatrix(A, "A Matrix: [" + n + "][" + m + "]");
-            Helpers.PrintMatrix(B, "B Matrix: [" + k + "][" + n + "]");
+            Helpers.printMatrix(A, "A Matrix: [" + n + "][" + m + "]");
+            Helpers.printMatrix(B, "B Matrix: [" + k + "][" + n + "]");
         }
 
         Thread[] threads = new Thread[numberOfThreads];
@@ -93,7 +93,7 @@ public class RSA_Matrices {
         double elapsed = (double) (stopTime - startTime) / 1000000000.0;
 
         if (!isQuietMode) {
-            Helpers.PrintMatrix(C, "C = AxB Matrix:");
+            Helpers.printMatrix(C, "C = AxB Matrix:");
         }
         System.out.printf("%d thread(s) used - %f seconds \n", numberOfThreads, elapsed);
     }
