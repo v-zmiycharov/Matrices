@@ -48,8 +48,8 @@ public class RSA_Matrices {
 
         Helpers.showMessageIfNotQuiet("Matrices generated:");
         if (!isQuietMode) {
-            Helpers.printMatrix(A, "A Matrix: [" + n + "][" + m + "]");
-            Helpers.printMatrix(B, "B Matrix: [" + k + "][" + n + "]");
+            Helpers.printMatrix(A, "A Matrix: [" + m + "][" + n + "]");
+            Helpers.printMatrix(B, "B Matrix: [" + n + "][" + k + "]");
         }
 
         Thread[] threads = new Thread[numberOfThreads];
