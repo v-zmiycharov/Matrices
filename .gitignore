@@ -14,3 +14,6 @@ RSA_Matrices/nb-configuration.xml
 *.jar
 *.war
 *.ear
+
+# Commons #
+!RSA_Matrices/lib/commons-cli-1.2.jar
